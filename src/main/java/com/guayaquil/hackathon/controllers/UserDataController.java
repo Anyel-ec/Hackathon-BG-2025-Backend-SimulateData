@@ -1,7 +1,7 @@
 package com.guayaquil.hackathon.controllers;
 
 import com.guayaquil.hackathon.models.google.UserData;
-import com.guayaquil.hackathon.repositories.UserDataRepository;
+import com.guayaquil.hackathon.repositories.GoogleUserDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +15,10 @@ import java.util.Optional;
 @RequestMapping("/api/user-data")
 public class UserDataController {
 
-    private final UserDataRepository userDataRepository;
+    private final GoogleUserDataRepository userDataRepository;
 
     @Autowired
-    public UserDataController(UserDataRepository userDataRepository) {
+    public UserDataController(GoogleUserDataRepository userDataRepository) {
         this.userDataRepository = userDataRepository;
     }
 

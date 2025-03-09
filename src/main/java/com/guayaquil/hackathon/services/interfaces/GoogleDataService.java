@@ -7,7 +7,7 @@ import com.guayaquil.hackathon.models.google.UserData;
  * Github: https://github.com/Anyel-ec
  * Creation date: 09/03/2025
  */
-public interface UserDataService {
+public interface GoogleDataService {
     UserData generateFakeUserData();
 
 }

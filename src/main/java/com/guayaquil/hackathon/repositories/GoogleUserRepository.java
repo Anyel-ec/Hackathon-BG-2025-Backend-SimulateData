@@ -14,7 +14,7 @@ import java.util.Optional;
  * Creation date: 09/03/2025
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface GoogleUserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.basicInfo.email = :email")
     Optional<User> findByEmail(@Param("email") String email);
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
  * Creation date: 09/03/2025
  */
 @Repository
-public interface UserDataRepository extends JpaRepository<UserData, Long> {
+public interface GoogleUserDataRepository extends JpaRepository<UserData, Long> {
     Optional<UserData> findByUserBasicInfoEmail(String email);
 
 }

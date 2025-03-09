@@ -7,10 +7,13 @@ package com.guayaquil.hackathon.schedule;
  */
 import com.guayaquil.hackathon.models.facebook.FacebookUser;
 import com.guayaquil.hackathon.models.google.UserData;
+import com.guayaquil.hackathon.models.linkedin.ProfessionalProfile;
 import com.guayaquil.hackathon.repositories.FacebookUserRepository;
-import com.guayaquil.hackathon.repositories.UserDataRepository;
+import com.guayaquil.hackathon.repositories.GoogleUserDataRepository;
+import com.guayaquil.hackathon.repositories.ProfessionalProfileRepository;
+import com.guayaquil.hackathon.services.impl.ProfessionalProfileService;
 import com.guayaquil.hackathon.services.interfaces.FacebookDataService;
-import com.guayaquil.hackathon.services.interfaces.UserDataService;
+import com.guayaquil.hackathon.services.interfaces.GoogleDataService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,9 +25,10 @@ public class FakeDataScheduler {
 
     private final FacebookDataService facebookDataService;
     private final FacebookUserRepository facebookUserRepository;
-    private final UserDataService userDataService;
-    private final UserDataRepository userDataRepository;
-
+    private final GoogleDataService userDataService;
+    private final GoogleUserDataRepository userDataRepository;
+    private final ProfessionalProfileService linkedInDataService;
+    private final ProfessionalProfileRepository linkedInProfileRepository;
     @Scheduled(fixedRate = 5000)
     public void persistFakeData() {
         FacebookUser user = facebookDataService.generateFakeData();
@@ -38,6 +42,14 @@ public class FakeDataScheduler {
         UserData saved = userDataRepository.save(userData);
         log.info("Persisted user: " + saved.getUser().getBasicInfo().getName() +
                 " - Email: " + saved.getUser().getBasicInfo().getEmail());
+    }
+
+    @Scheduled(fixedRate = 1000)
+    public void persistFakeLinkedInData() {
+        ProfessionalProfile profile = linkedInDataService.generateFakeProfile();
+        ProfessionalProfile savedProfile = linkedInProfileRepository.save(profile);
+        log.info("Persisted LinkedIn profile: " + savedProfile.getNombreCompleto() +
+                " - Cargo: " + savedProfile.getCargoActual());
     }
 
 }

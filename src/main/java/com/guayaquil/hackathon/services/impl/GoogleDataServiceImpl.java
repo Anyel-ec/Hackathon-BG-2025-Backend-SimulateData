@@ -2,8 +2,8 @@ package com.guayaquil.hackathon.services.impl;
 
 import com.github.javafaker.Faker;
 import com.guayaquil.hackathon.models.google.*;
-import com.guayaquil.hackathon.repositories.UserRepository;
-import com.guayaquil.hackathon.services.interfaces.UserDataService;
+import com.guayaquil.hackathon.repositories.GoogleUserRepository;
+import com.guayaquil.hackathon.services.interfaces.GoogleDataService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,13 +11,13 @@ import java.time.OffsetDateTime;
 import java.util.*;
 
 @Service
-public class UserDataServiceImpl implements UserDataService {
+public class GoogleDataServiceImpl implements GoogleDataService {
 
     private final Faker faker = new Faker(new Locale("es"));
     private final Random random = new Random();
-    private final UserRepository userRepository;
+    private final GoogleUserRepository userRepository;
 
-    public UserDataServiceImpl(UserRepository userRepository) {
+    public GoogleDataServiceImpl(GoogleUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
