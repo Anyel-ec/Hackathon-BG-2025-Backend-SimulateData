@@ -1,6 +1,7 @@
 package com.guayaquil.hackathon.controllers;
 
 import com.guayaquil.hackathon.models.facebook.FacebookUser;
+import com.guayaquil.hackathon.services.impl.FacebookDataServiceImpl;
 import com.guayaquil.hackathon.services.interfaces.FacebookDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class FacebookDataController {
     private static final Logger logger = LoggerFactory.getLogger(FacebookDataController.class);
 
     @Autowired
-    private FacebookDataService facebookDataService;
+    private FacebookDataServiceImpl facebookDataService;
 
     @GetMapping("/api/fake-facebook-data")
     public FacebookUser getFakeFacebookData() {

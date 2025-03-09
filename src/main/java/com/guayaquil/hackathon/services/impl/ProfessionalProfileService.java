@@ -22,79 +22,112 @@ public class ProfessionalProfileService {
 
     @Transactional
     public ProfessionalProfile generateFakeProfile() {
-        // Create a new professional profile
+        // **📌 Crear perfil profesional**
         ProfessionalProfile profile = new ProfessionalProfile();
+        profile.setNombreCompleto("Neythan León Vásquez");
+        profile.setUbicacion("Guayaquil, Guayas, Ecuador");
 
-        // Set name and location
-        profile.setNombreCompleto(faker.name().fullName());
-        profile.setUbicacion(faker.address().city());
-
-        // Generate professional experience
+        // **📌 Experiencia Profesional**
         List<ExperienciaProfesional> experiencias = new ArrayList<>();
-        for (int i = 0; i < faker.number().numberBetween(1, 3); i++) {
-            ExperienciaProfesional exp = new ExperienciaProfesional();
-            exp.setEmpresa(faker.company().name());
-            exp.setCargo(faker.job().title());
-            exp.setFechaInicio(faker.number().numberBetween(2005, 2023) + "-0" + faker.number().numberBetween(1, 9));
-            exp.setFechaFin(faker.bool().bool() ? "Present" : (faker.number().numberBetween(2010, 2024) + "-0" + faker.number().numberBetween(1, 9)));
-            exp.setNivelSeniority(faker.options().option("Junior", "Intermediate", "Senior"));
-            exp.setTecnologias(Arrays.asList("Java", "Spring Boot", "Docker", "Kubernetes"));
-            experiencias.add(exp);
-        }
+
+        // **Desarrollador de Software en AlfaPeople**
+        ExperienciaProfesional exp1 = new ExperienciaProfesional();
+        exp1.setEmpresa("AlfaPeople");
+        exp1.setCargo("Desarrollador de software");
+        exp1.setFechaInicio("2020-11");
+        exp1.setFechaFin(null); // Actualidad
+        exp1.setNivelSeniority("Senior");
+        exp1.setTecnologias(Arrays.asList("Microsoft Dynamics 365 FO", "C#", "Azure DevOps", "SQL Server", "Web Services API", "OData", "SSRS"));
+        experiencias.add(exp1);
+
+        // **CTO & Founder en Levanst**
+        ExperienciaProfesional exp2 = new ExperienciaProfesional();
+        exp2.setEmpresa("Levanst");
+        exp2.setCargo("CTO & Founder");
+        exp2.setFechaInicio("2019-02");
+        exp2.setFechaFin(null); // Actualidad
+        exp2.setNivelSeniority("Senior");
+        exp2.setTecnologias(Arrays.asList("Angular", "Django", "Python", "TypeScript", "Full-Stack Development"));
+        experiencias.add(exp2);
+
+        // **Finalista en Hult Prize Foundation**
+        ExperienciaProfesional exp3 = new ExperienciaProfesional();
+        exp3.setEmpresa("Hult Prize Foundation");
+        exp3.setCargo("Finalista 2019 Reto HultPrize OnCampus");
+        exp3.setFechaInicio("2019-10");
+        exp3.setFechaFin("2023-04");
+        exp3.setNivelSeniority("Intermedio");
+        exp3.setTecnologias(Arrays.asList("Web Analytics", "Project Coordination", "Agile Project Management", "Full-Stack Development"));
+        experiencias.add(exp3);
+
+        // **Presidente del Club de Mecatrónica ESPOL**
+        ExperienciaProfesional exp4 = new ExperienciaProfesional();
+        exp4.setEmpresa("Club de Mecatrónica ESPOL");
+        exp4.setCargo("Presidente");
+        exp4.setFechaInicio("2020-01");
+        exp4.setFechaFin("2021-02");
+        exp4.setNivelSeniority("Liderazgo");
+        exp4.setTecnologias(Arrays.asList("Educación en tecnología", "IoT", "Team Coordination", "Digital Marketing"));
+        experiencias.add(exp4);
+
         profile.setExperienciaProfesional(experiencias);
 
-        // Set previous jobs and current status
+        // **📌 Datos de trabajos previos y estado actual**
         profile.setTrabajosPrevios(experiencias.size());
-        profile.setEstadoActual(faker.options().option("Employed", "Freelancer", "Unemployed"));
-        profile.setCargoActual(experiencias.get(0).getCargo());
-        profile.setNivelEducacion(faker.options().option("Computer Science Engineering", "Master in Artificial Intelligence"));
+        profile.setEstadoActual("Empleado");
+        profile.setCargoActual("Desarrollador de software");
+        profile.setNivelEducacion("Ingeniería en Ciencias Computacionales");
 
-        // Set skills
-        profile.setHabilidades(Arrays.asList("Software Development", "Machine Learning", "Data Science", "DevOps"));
+        // **📌 Habilidades**
+        profile.setHabilidades(Arrays.asList(
+                "Microsoft Dynamics 365 FO", "C#", "Azure DevOps", "SQL Server",
+                "Angular", "Django", "Python", "TypeScript", "Full-Stack Development",
+                "Project Coordination", "Agile Project Management", "IoT"
+        ));
 
-        // Set languages
+        // **📌 Idiomas**
         List<Idioma> idiomas = new ArrayList<>();
-        idiomas.add(new Idioma("Spanish", "Native"));
-        idiomas.add(new Idioma("English", faker.options().option("Basic", "Intermediate", "Advanced")));
+        idiomas.add(new Idioma("Español", "Nativo"));
+        idiomas.add(new Idioma("Inglés", "Intermedio"));
         profile.setIdiomas(idiomas);
 
-        // Set estimated salary
+        // **📌 Salario Estimado**
         SalarioEstimado salario = new SalarioEstimado();
         Map<String, String> salaryRanges = new HashMap<>();
-        salaryRanges.put("USA", "100,000 - 130,000 USD");
-        salaryRanges.put("Mexico", "10,000 - 20,000 USD");
+        salaryRanges.put("EE.UU", "100,000 - 130,000 USD");
+        salaryRanges.put("México", "10,000 - 20,000 USD");
         salaryRanges.put("Ecuador", "12,000 - 18,000 USD");
         salario.setRango(salaryRanges);
 
         Map<String, String> salarySources = new HashMap<>();
-        salarySources.put("USA", "Talent.com");
-        salarySources.put("Mexico", "Glassdoor");
-        salarySources.put("Ecuador", "Market estimation");
+        salarySources.put("EE.UU", "Talent.com");
+        salarySources.put("México", "Glassdoor");
+        salarySources.put("Ecuador", "Estimado basado en mercado");
         salario.setFuente(salarySources);
         profile.setSalarioEstimado(salario);
 
-        // Set credit profile
+        // **📌 Perfil Crediticio**
         PerfilCrediticio creditProfile = new PerfilCrediticio();
         Map<String, String> creditFactors = new HashMap<>();
-        creditFactors.put("job_stability", "Medium-High");
-        creditFactors.put("income_level", "Depends on location");
-        creditFactors.put("credit_history", "Unknown");
-        creditFactors.put("debt", "Unknown");
+        creditFactors.put("estabilidad_laboral", "Alta");
+        creditFactors.put("nivel_ingresos", "Depende de ubicación");
+        creditFactors.put("historial_crediticio", "Desconocido");
+        creditFactors.put("endeudamiento", "Desconocido");
         creditProfile.setFactores(creditFactors);
-        creditProfile.setCategoriaProbable("Good - Very Good");
+        creditProfile.setCategoriaProbable("Bueno - Muy Bueno");
         profile.setPerfilCrediticio(creditProfile);
 
-        // Save profile to the database
+        // **📌 Guardar el perfil en la base de datos**
         return repository.save(profile);
     }
 
     public Page<ProfessionalProfile> getAllProfiles(Pageable pageable) {
-        // Retrieve all professional profiles with pagination
+        // Obtener todos los perfiles con paginación
         return repository.findAll(pageable);
     }
 
     public Optional<ProfessionalProfile> getProfileById(Long id) {
-        // Retrieve a professional profile by ID
+        // Obtener un perfil por ID
         return repository.findById(id);
     }
 }

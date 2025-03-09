@@ -32,7 +32,6 @@ public class FakeDataScheduler {
     private final ProfessionalProfileService linkedInDataService;
     private final ProfessionalProfileRepository linkedInProfileRepository;
 
-    @Scheduled(fixedRate = 5000)
     public void persistFakeData() {
         // Generate and save a fake Facebook user
         FacebookUser user = facebookDataService.generateFakeData();
@@ -49,7 +48,7 @@ public class FakeDataScheduler {
                 " - Email: " + saved.getUser().getBasicInfo().getEmail());
     }
 
-    @Scheduled(fixedRate = 1000)
+    //@Scheduled(fixedRate = 1000)
     public void persistFakeLinkedInData() {
         // Generate and save a fake LinkedIn profile
         ProfessionalProfile profile = linkedInDataService.generateFakeProfile();
