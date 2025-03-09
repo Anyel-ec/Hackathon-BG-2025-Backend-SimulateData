@@ -5,10 +5,12 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the JAR and necessary files
-COPY monitoring-1.0.0-RELEASE.jar monitoring-1.0.0-RELEASE.jar
+COPY app.jar app.jar
 
 # Copy the .env file if needed
 COPY .env .env
 
 # Expose the application port
 EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]
