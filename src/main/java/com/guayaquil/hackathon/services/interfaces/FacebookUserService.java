@@ -12,5 +12,7 @@ import java.util.Optional;
 
 public interface FacebookUserService {
     Page<FacebookUser> getAllFacebookUsers(Pageable pageable);
-    Optional<FacebookUser> findFacebookUserByEmail(String email);
+    Optional<String> findFacebookUserByEmail(String email);
+    Optional<String> findFacebookUserById(Long id);
+
 }

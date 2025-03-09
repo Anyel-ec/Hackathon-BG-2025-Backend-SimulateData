@@ -5,6 +5,7 @@ import com.guayaquil.hackathon.services.interfaces.FacebookUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -35,16 +36,26 @@ public class FacebookUserController {
         }
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<FacebookUser> getFacebookUserByEmail(@RequestParam("email") String email) {
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getFacebookUserByEmail(@RequestParam("email") String email) {
         try {
-            // Search for a Facebook user by email
             return facebookUserService.findFacebookUserByEmail(email)
-                    .map(ResponseEntity::ok)
+                    .map(json -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json))
                     .orElseGet(() -> ResponseEntity.notFound().build());
         } catch (Exception e) {
-            // Log error and return 500 response
             logger.error("Error searching Facebook user by email: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getFacebookUserById(@PathVariable("id") Long id) {
+        try {
+            return facebookUserService.findFacebookUserById(id)
+                    .map(json -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json))
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            logger.error("Error searching Facebook user by ID: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
