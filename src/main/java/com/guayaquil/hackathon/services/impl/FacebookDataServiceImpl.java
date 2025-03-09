@@ -21,6 +21,7 @@ public class FacebookDataServiceImpl implements FacebookDataService {
 
     @Override
     public FacebookUser generateFakeData() {
+        // Create a new Facebook user object
         FacebookUser user = new FacebookUser();
         user.setFacebookId(UUID.randomUUID().toString());
         user.setName(faker.name().fullName());
@@ -32,12 +33,12 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         user.setPoliticalViews("Centrist");
         user.setReligion("None");
 
-        // AgeRange
+        // Set age range
         AgeRange ageRange = new AgeRange();
         ageRange.setMin(21);
         user.setAgeRange(ageRange);
 
-        // Selección aleatoria de región: América Latina o Europa
+        // Randomly select a region (Latin America or Europe)
         boolean isLatinAmerica = random.nextBoolean();
         String city, country;
         if (isLatinAmerica) {
@@ -48,24 +49,24 @@ public class FacebookDataServiceImpl implements FacebookDataService {
             country = EUROPEAN_COUNTRIES.get(random.nextInt(EUROPEAN_COUNTRIES.size()));
         }
 
-        // Hometown
+        // Set hometown
         Hometown hometown = new Hometown();
         hometown.setId(UUID.randomUUID().toString());
         hometown.setName(city + " (" + country + ")");
         user.setHometown(hometown);
 
-        // Location
+        // Set location
         Location location = new Location();
         location.setId(UUID.randomUUID().toString());
         location.setName(city + " (" + country + ")");
         location.setZipCode(isLatinAmerica ? "10001" : "20002");
-        location.setNeighborhood("Barrio Lujoso");
+        location.setNeighborhood("Luxury Neighborhood");
         location.setCity(city);
-        location.setRegion(isLatinAmerica ? "Zona de alto nivel" : "Zona Premium");
+        location.setRegion(isLatinAmerica ? "High-end area" : "Premium area");
         location.setCountry(country);
         user.setLocation(location);
 
-        // Posts
+        // Generate random posts
         List<Post> posts = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Post post = new Post();
@@ -79,7 +80,7 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         }
         user.setPosts(posts);
 
-        // Photos
+        // Generate random photos
         List<Photo> photos = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             Photo photo = new Photo();
@@ -93,7 +94,7 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         }
         user.setPhotos(photos);
 
-        // MusicItems
+        // Generate random music interests
         List<MusicItem> musicItems = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             MusicItem music = new MusicItem();
@@ -107,7 +108,7 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         }
         user.setMusicItems(musicItems);
 
-        // Work
+        // Generate work experience
         List<Work> workList = new ArrayList<>();
         Work work = new Work();
         work.setPosition("Software Engineer");
@@ -121,20 +122,20 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         workList.add(work);
         user.setWork(workList);
 
-        // Education
+        // Generate education details
         List<Education> educationList = new ArrayList<>();
         Education education = new Education();
-        education.setDegree("Ingeniería Informática");
+        education.setDegree("Computer Engineering");
         education.setYear("2024");
         education.setFacebookUser(user);
         School school = new School();
         school.setId(UUID.randomUUID().toString());
-        school.setName("Universidad de Quito");
+        school.setName("University of Quito");
         education.setSchool(school);
         educationList.add(education);
         user.setEducation(educationList);
 
-        // Likes
+        // Generate liked pages
         List<LikePage> likes = new ArrayList<>();
         LikePage likePage = new LikePage();
         likePage.setFacebookLikePageId(UUID.randomUUID().toString());
@@ -144,7 +145,7 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         likes.add(likePage);
         user.setLikes(likes);
 
-        // Favorite Brands
+        // Generate favorite brands
         List<Brand> brands = new ArrayList<>();
         Brand brand = new Brand();
         brand.setFacebookBrandId(UUID.randomUUID().toString());
@@ -153,12 +154,12 @@ public class FacebookDataServiceImpl implements FacebookDataService {
         brands.add(brand);
         user.setFavoriteBrands(brands);
 
-        // Interests
+        // Set user interests
         Set<String> interests = new HashSet<>();
-        interests.add("Tecnología");
-        interests.add("Viajes");
-        interests.add("Moda");
-        interests.add("Gastronomía");
+        interests.add("Technology");
+        interests.add("Travel");
+        interests.add("Fashion");
+        interests.add("Gastronomy");
         user.setInterests(interests);
 
         return user;

@@ -3,6 +3,8 @@ package com.guayaquil.hackathon.services.impl;
 import com.github.javafaker.Faker;
 import com.guayaquil.hackathon.models.linkedin.*;
 import com.guayaquil.hackathon.repositories.ProfessionalProfileRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,68 +22,79 @@ public class ProfessionalProfileService {
 
     @Transactional
     public ProfessionalProfile generateFakeProfile() {
+        // Create a new professional profile
         ProfessionalProfile profile = new ProfessionalProfile();
 
-        // Nombre y Ubicación
+        // Set name and location
         profile.setNombreCompleto(faker.name().fullName());
         profile.setUbicacion(faker.address().city());
 
-        // Experiencia Profesional
+        // Generate professional experience
         List<ExperienciaProfesional> experiencias = new ArrayList<>();
         for (int i = 0; i < faker.number().numberBetween(1, 3); i++) {
             ExperienciaProfesional exp = new ExperienciaProfesional();
             exp.setEmpresa(faker.company().name());
             exp.setCargo(faker.job().title());
             exp.setFechaInicio(faker.number().numberBetween(2005, 2023) + "-0" + faker.number().numberBetween(1, 9));
-            exp.setFechaFin(faker.bool().bool() ? "Presente" : (faker.number().numberBetween(2010, 2024) + "-0" + faker.number().numberBetween(1, 9)));
-            exp.setNivelSeniority(faker.options().option("Junior", "Intermedio", "Senior"));
+            exp.setFechaFin(faker.bool().bool() ? "Present" : (faker.number().numberBetween(2010, 2024) + "-0" + faker.number().numberBetween(1, 9)));
+            exp.setNivelSeniority(faker.options().option("Junior", "Intermediate", "Senior"));
             exp.setTecnologias(Arrays.asList("Java", "Spring Boot", "Docker", "Kubernetes"));
             experiencias.add(exp);
         }
         profile.setExperienciaProfesional(experiencias);
 
-        // Trabajos previos y Estado actual
+        // Set previous jobs and current status
         profile.setTrabajosPrevios(experiencias.size());
-        profile.setEstadoActual(faker.options().option("Empleado", "Freelancer", "Desempleado"));
+        profile.setEstadoActual(faker.options().option("Employed", "Freelancer", "Unemployed"));
         profile.setCargoActual(experiencias.get(0).getCargo());
-        profile.setNivelEducacion(faker.options().option("Ingeniería en Ciencias de la Computación", "Máster en Inteligencia Artificial"));
+        profile.setNivelEducacion(faker.options().option("Computer Science Engineering", "Master in Artificial Intelligence"));
 
-        // Habilidades
-        profile.setHabilidades(Arrays.asList("Desarrollo de Software", "Machine Learning", "Ciencia de Datos", "DevOps"));
+        // Set skills
+        profile.setHabilidades(Arrays.asList("Software Development", "Machine Learning", "Data Science", "DevOps"));
 
-        // Idiomas
+        // Set languages
         List<Idioma> idiomas = new ArrayList<>();
-        idiomas.add(new Idioma("Español", "Nativo"));
-        idiomas.add(new Idioma("Inglés", faker.options().option("Básico", "Intermedio", "Avanzado")));
+        idiomas.add(new Idioma("Spanish", "Native"));
+        idiomas.add(new Idioma("English", faker.options().option("Basic", "Intermediate", "Advanced")));
         profile.setIdiomas(idiomas);
 
-        // Salario Estimado
+        // Set estimated salary
         SalarioEstimado salario = new SalarioEstimado();
-        Map<String, String> rangos = new HashMap<>();
-        rangos.put("EE.UU", "100,000 - 130,000 USD");
-        rangos.put("México", "10,000 - 20,000 USD");
-        rangos.put("Ecuador", "12,000 - 18,000 USD");
-        salario.setRango(rangos);
+        Map<String, String> salaryRanges = new HashMap<>();
+        salaryRanges.put("USA", "100,000 - 130,000 USD");
+        salaryRanges.put("Mexico", "10,000 - 20,000 USD");
+        salaryRanges.put("Ecuador", "12,000 - 18,000 USD");
+        salario.setRango(salaryRanges);
 
-        Map<String, String> fuentes = new HashMap<>();
-        fuentes.put("EE.UU", "Talent.com");
-        fuentes.put("México", "Glassdoor");
-        fuentes.put("Ecuador", "Estimado basado en mercado");
-        salario.setFuente(fuentes);
+        Map<String, String> salarySources = new HashMap<>();
+        salarySources.put("USA", "Talent.com");
+        salarySources.put("Mexico", "Glassdoor");
+        salarySources.put("Ecuador", "Market estimation");
+        salario.setFuente(salarySources);
         profile.setSalarioEstimado(salario);
 
-        // Perfil Crediticio
-        PerfilCrediticio crediticio = new PerfilCrediticio();
-        Map<String, String> factores = new HashMap<>();
-        factores.put("estabilidad_laboral", "Media-Alta");
-        factores.put("nivel_ingresos", "Depende de ubicación");
-        factores.put("historial_crediticio", "Desconocido");
-        factores.put("endeudamiento", "Desconocido");
-        crediticio.setFactores(factores);
-        crediticio.setCategoriaProbable("Bueno - Muy Bueno");
-        profile.setPerfilCrediticio(crediticio);
+        // Set credit profile
+        PerfilCrediticio creditProfile = new PerfilCrediticio();
+        Map<String, String> creditFactors = new HashMap<>();
+        creditFactors.put("job_stability", "Medium-High");
+        creditFactors.put("income_level", "Depends on location");
+        creditFactors.put("credit_history", "Unknown");
+        creditFactors.put("debt", "Unknown");
+        creditProfile.setFactores(creditFactors);
+        creditProfile.setCategoriaProbable("Good - Very Good");
+        profile.setPerfilCrediticio(creditProfile);
 
-        // Guardar en la base de datos
+        // Save profile to the database
         return repository.save(profile);
+    }
+
+    public Page<ProfessionalProfile> getAllProfiles(Pageable pageable) {
+        // Retrieve all professional profiles with pagination
+        return repository.findAll(pageable);
+    }
+
+    public Optional<ProfessionalProfile> getProfileById(Long id) {
+        // Retrieve a professional profile by ID
+        return repository.findById(id);
     }
 }

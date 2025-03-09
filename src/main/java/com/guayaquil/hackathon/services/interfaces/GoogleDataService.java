@@ -9,5 +9,4 @@ import com.guayaquil.hackathon.models.google.UserData;
  */
 public interface GoogleDataService {
     UserData generateFakeUserData();
-
 }

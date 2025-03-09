@@ -4,22 +4,19 @@ import com.github.javafaker.Faker;
 import com.guayaquil.hackathon.models.google.*;
 import com.guayaquil.hackathon.repositories.GoogleUserRepository;
 import com.guayaquil.hackathon.services.interfaces.GoogleDataService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.*;
-
+@AllArgsConstructor
 @Service
 public class GoogleDataServiceImpl implements GoogleDataService {
 
     private final Faker faker = new Faker(new Locale("es"));
     private final Random random = new Random();
     private final GoogleUserRepository userRepository;
-
-    public GoogleDataServiceImpl(GoogleUserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     @Transactional
@@ -119,7 +116,7 @@ public class GoogleDataServiceImpl implements GoogleDataService {
 
         user = userRepository.save(user);
 
-        // Crear UserData
+        // create UserData
         UserData userData = new UserData();
         userData.setUser(user);
 

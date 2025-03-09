@@ -7,11 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/facebook-users")
 public class FacebookUserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(FacebookUserController.class);
     private final FacebookUserService facebookUserService;
 
     @Autowired
@@ -21,14 +24,28 @@ public class FacebookUserController {
 
     @GetMapping
     public ResponseEntity<Page<FacebookUser>> getAllFacebookUsers(Pageable pageable) {
-        Page<FacebookUser> page = facebookUserService.getAllFacebookUsers(pageable);
-        return ResponseEntity.ok(page);
+        try {
+            // Retrieve all Facebook users with pagination
+            Page<FacebookUser> page = facebookUserService.getAllFacebookUsers(pageable);
+            return ResponseEntity.ok(page);
+        } catch (Exception e) {
+            // Log error and return 500 response
+            logger.error("Error fetching Facebook users: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/search")
     public ResponseEntity<FacebookUser> getFacebookUserByEmail(@RequestParam("email") String email) {
-        return facebookUserService.findFacebookUserByEmail(email)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            // Search for a Facebook user by email
+            return facebookUserService.findFacebookUserByEmail(email)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            // Log error and return 500 response
+            logger.error("Error searching Facebook user by email: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

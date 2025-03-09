@@ -5,6 +5,7 @@ package com.guayaquil.hackathon.schedule;
  * Github: https://github.com/Anyel-ec
  * Creation date: 09/03/2025
  */
+
 import com.guayaquil.hackathon.models.facebook.FacebookUser;
 import com.guayaquil.hackathon.models.google.UserData;
 import com.guayaquil.hackathon.models.linkedin.ProfessionalProfile;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -29,8 +31,10 @@ public class FakeDataScheduler {
     private final GoogleUserDataRepository userDataRepository;
     private final ProfessionalProfileService linkedInDataService;
     private final ProfessionalProfileRepository linkedInProfileRepository;
+
     @Scheduled(fixedRate = 5000)
     public void persistFakeData() {
+        // Generate and save a fake Facebook user
         FacebookUser user = facebookDataService.generateFakeData();
         FacebookUser savedUser = facebookUserRepository.save(user);
         log.info("Saved user: " + savedUser.getName() + " with generated ID: " + savedUser.getId());
@@ -38,6 +42,7 @@ public class FakeDataScheduler {
 
     @Scheduled(fixedRate = 5000)
     public void persistFakeUserData() {
+        // Generate and save a fake Google user data
         UserData userData = userDataService.generateFakeUserData();
         UserData saved = userDataRepository.save(userData);
         log.info("Persisted user: " + saved.getUser().getBasicInfo().getName() +
@@ -46,10 +51,11 @@ public class FakeDataScheduler {
 
     @Scheduled(fixedRate = 1000)
     public void persistFakeLinkedInData() {
+        // Generate and save a fake LinkedIn profile
         ProfessionalProfile profile = linkedInDataService.generateFakeProfile();
         ProfessionalProfile savedProfile = linkedInProfileRepository.save(profile);
         log.info("Persisted LinkedIn profile: " + savedProfile.getNombreCompleto() +
-                " - Cargo: " + savedProfile.getCargoActual());
+                " - Position: " + savedProfile.getCargoActual());
     }
 
 }
