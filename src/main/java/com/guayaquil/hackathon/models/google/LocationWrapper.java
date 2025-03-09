@@ -5,11 +5,24 @@ package com.guayaquil.hackathon.models.google;
  * Github: https://github.com/Anyel-ec
  * Creation date: 09/03/2025
  */
-import lombok.Data;
-import java.util.List;
+import jakarta.persistence.*;
 
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
+@Entity
 @Data
 public class LocationWrapper {
-    private List<LocationHistoryItem> locationHistory;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "location_wrapper_id")
+    private List<LocationHistoryItem> locationHistory = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "current_location_id")
     private LocationHistoryItem currentLocation;
 }
