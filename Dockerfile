@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the JAR and necessary files
-COPY app.jar app.jar
+COPY app_bg.jar app.jar
 
 # Copy the .env file if needed
 #COPY .env .env

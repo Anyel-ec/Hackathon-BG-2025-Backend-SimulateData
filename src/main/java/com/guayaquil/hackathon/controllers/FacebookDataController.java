@@ -2,7 +2,6 @@ package com.guayaquil.hackathon.controllers;
 
 import com.guayaquil.hackathon.models.facebook.FacebookUser;
 import com.guayaquil.hackathon.services.impl.FacebookDataServiceImpl;
-import com.guayaquil.hackathon.services.interfaces.FacebookDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
